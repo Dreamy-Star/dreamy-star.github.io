@@ -1,0 +1,521 @@
+<html>
+    <head>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js"></script>
+        <script src = "https://unpkg.com/p5.collide2d"></script>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/addons/p5.sound.min.js"></script>
+        <link href = "style.css" rel = "stylesheet" type = "text/css">
+        <link rel = "preconnect" href = "https://fonts.gstatic.com">
+        <link href = "https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script:wght@700&family=Kaushan+Script&display=swap" rel = "stylesheet">
+    </head>
+    
+    <body>
+        <script>
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        var player; 
+        var character;
+        var block;
+
+        var barrierUp1;
+        var barrierDown1;
+        var hitUp1 = false;
+        var hitDown1 = false;
+
+        var barrierUp2;
+        var barrierDown2;
+        var hitUp2 = false;
+        var hitDown2 = false;
+
+        var barrierUp3;
+        var barrierDown3;
+        var hitUp3 = false;
+        var hitDown3 = false;
+
+        var barrierUp4;
+        var barrierDown4;
+        var hitUp4 = false;
+        var hitDown4 = false;
+
+        var boing; 
+        var space = 225;
+        var count = 0;
+        var barrierSpeed = 5.75;
+
+        function preload()
+        {
+            character = loadImage("snowflake3.png");
+            block = loadImage("snowblock.png");
+            boing = loadSound("boing.mp3");
+        }
+
+        function setup() 
+        {
+            createCanvas(w, h);
+
+            player = new player(); 
+
+            barrierUp1 = new barrierUp1();
+            barrierDown1 = new barrierDown1();
+
+            barrierUp2 = new barrierUp2();
+            barrierDown2 = new barrierDown2();
+
+            barrierUp3 = new barrierUp3();
+            barrierDown3 = new barrierDown3();
+
+            barrierUp4 = new barrierUp4();
+            barrierDown4 = new barrierDown4();
+        }
+
+        function draw() 
+        {
+            noStroke();
+            clear();
+
+            player.show(); 
+            player.update();
+
+            barrierUp1.show();
+            barrierUp1.update();
+            barrierDown1.show();
+            barrierDown1.update();
+
+            hitUp1 = collideRectCircle(
+                barrierUp1.x, barrierUp1.y, barrierUp1.width, barrierUp1.height,
+                player.x, player.y, player.width, player.height
+            );
+            hitDown1 = collideRectCircle(
+                barrierDown1.x, barrierDown1.y, barrierDown1.width, barrierDown1.height,
+                player.x, player.y, player.width, player.height
+            );
+
+            if(barrierUp1.x <= (3*w/4 - barrierUp1.width/4))
+            {
+                barrierUp2.show();
+                barrierUp2.update();
+                barrierDown2.show();
+                barrierDown2.update();
+            }
+
+            if(barrierUp1.x > barrierUp2.x)
+            {
+                barrierUp2.show();
+                barrierUp2.update();
+                barrierDown2.show();
+                barrierDown2.update();
+            }
+            
+            hitUp2 = collideRectCircle(
+                barrierUp2.x, barrierUp2.y, barrierUp2.width, barrierUp2.height,
+                player.x, player.y, player.width, player.height
+            );
+            hitDown2 = collideRectCircle(
+                barrierDown2.x, barrierDown2.y, barrierDown2.width, barrierDown2.height,
+                player.x, player.y, player.width, player.height
+            );
+
+            if(barrierUp2.x <= (3*w/4 - barrierUp2.width/4))
+            {
+                barrierUp3.show();
+                barrierUp3.update();
+                barrierDown3.show();
+                barrierDown3.update();
+            }
+
+            if(barrierUp2.x > barrierUp3.x)
+            {
+                barrierUp3.show();
+                barrierUp3.update();
+                barrierDown3.show();
+                barrierDown3.update();
+            }
+            
+            hitUp3 = collideRectCircle(
+                barrierUp3.x, barrierUp3.y, barrierUp3.width, barrierUp3.height,
+                player.x, player.y, player.width, player.height
+            );
+            hitDown3 = collideRectCircle(
+                barrierDown3.x, barrierDown3.y, barrierDown3.width, barrierDown3.height,
+                player.x, player.y, player.width, player.height
+            );
+
+            if(barrierUp3.x <= (3*w/4 - barrierUp3.width/4))
+            {
+                barrierUp4.show();
+                barrierUp4.update();
+                barrierDown4.show();
+                barrierDown4.update();
+            }
+
+            if(barrierUp3.x > barrierUp4.x)
+            {
+                barrierUp4.show();
+                barrierUp4.update();
+                barrierDown4.show();
+                barrierDown4.update();
+            }
+            
+            hitUp4 = collideRectCircle(
+                barrierUp4.x, barrierUp4.y, barrierUp4.width, barrierUp4.height,
+                player.x, player.y, player.width, player.height
+            );
+            hitDown4 = collideRectCircle(
+                barrierDown4.x, barrierDown4.y, barrierDown4.width, barrierDown4.height,
+                player.x, player.y, player.width, player.height
+            );
+
+            if (hitUp1 === true || hitDown1 === true ||
+                hitUp2 === true || hitDown2 === true ||
+                hitUp3 === true || hitDown3 === true ||
+                hitUp4 === true || hitDown4 === true)
+            {
+                noLoop();
+                calculate();
+            }
+            else
+            {
+                fill("white");
+                textSize(30);
+                var score = "Score: " + count;
+                text(score, 10, 40);
+                localStorage.setItem("Score", count);
+            }
+            if(count > 135)
+            {
+                barrierSpeed = 8;
+                space = 180;
+            }
+            else if(count > 120)
+            {
+                barrierSpeed = 7.75;
+                space = 185;
+            }
+            else if(count > 105)
+            {
+                barrierSpeed = 7.5;
+                space = 190;
+            }
+            else if(count > 90)
+            {
+                barrierSpeed = 7.25;
+                space = 195;
+            }
+            else if(count > 75)
+            {
+                barrierSpeed = 7;
+                space = 200;
+            }
+            else if(count > 60)
+            {
+                barrierSpeed = 6.75;
+                space = 205;
+            }
+            else if(count > 45)
+            {
+                barrierSpeed = 6.5;
+                space = 210;
+            }
+            else if(count > 30)
+            {
+                barrierSpeed = 6.25;
+                space = 215;
+            }
+            else if(count > 15)
+            {
+                barrierSpeed = 6;
+                space = 220;
+            }
+        }
+
+        function calculate()
+        {
+            if(count > parseFloat(localStorage.getItem("Best")))
+            {
+                localStorage.setItem("Best", count);
+            }
+            location.href = "score.html";
+        }
+
+        function player() 
+        {
+            this.width = 50;
+            this.height = 50;
+            this.x = w/8;
+            this.y = h/2;
+
+            this.gravity = 0.8;
+            this.lift = -18; 
+            this.velocity = 0; 
+
+            this.show = function()
+            {
+                fill("#0096FF"); //#EBF5FB //white#0047AB
+                ellipse(this.x, this.y, this.width, this.height);
+                image(character, player.x - (player.width/2), player.y - (player.height/2), player.width, player.height)
+            }
+
+            this.update = function()
+            {
+                this.velocity += this.gravity; 
+                this.y += this.velocity; 
+                this.velocity *= 0.9; 
+
+                if(this.y > h - 25)
+                {
+                    this.y = h - 25;
+                }
+                if(this.y < 25)
+                {
+                    this.y = 25;
+                }
+            }
+
+            this.up = function()
+            {
+                this.velocity += this.lift;
+            }
+        }
+
+        function barrierUp1()
+        {
+            this.width = 70;
+            this.height = random(50, h - (space + 50));
+            this.x = w;
+            this.y = 0;
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierUp1.x, barrierUp1.y, barrierUp1.width, barrierUp1.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    count++;
+                    this.height = random(50, h - (space + 50));
+                    this.x = w;
+                    this.y = 0;
+                }
+            }
+        }
+
+        function barrierDown1()
+        {
+            this.width = 70;
+            this.height = h - (barrierUp1.height + space);
+            this.x = w;
+            this.y = h - this.height; 
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierDown1.x, barrierDown1.y, barrierDown1.width, barrierDown1.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    this.height = h - (barrierUp1.height + space);
+                    this.x = w;
+                    this.y = h - this.height;
+                }
+            }
+        }
+
+        function barrierUp2()
+        {
+            this.width = 70;
+            this.height = random(50, h - (space + 50));
+            this.x = w;
+            this.y = 0;
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierUp2.x, barrierUp2.y, barrierUp2.width, barrierUp2.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    count++;
+                    this.height = random(50, h - (space + 50));
+                    this.x = w;
+                    this.y = 0;
+                }
+            }
+        }
+
+        function barrierDown2()
+        {
+            this.width = 70;
+            this.height = h - (barrierUp2.height + space);
+            this.x = w;
+            this.y = h - this.height; 
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierDown2.x, barrierDown2.y, barrierDown2.width, barrierDown2.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    this.height = h - (barrierUp2.height + space);
+                    this.x = w;
+                    this.y = h - this.height;
+                }
+            }
+        }
+
+        function barrierUp3()
+        {
+            this.width = 70;
+            this.height = random(50, h - (space + 50));
+            this.x = w;
+            this.y = 0;
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierUp3.x, barrierUp3.y, barrierUp3.width, barrierUp3.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    count++;
+                    this.height = random(50, h - (space + 50));
+                    this.x = w;
+                    this.y = 0;
+                }
+            }
+        }
+
+        function barrierDown3()
+        {
+            this.width = 70;
+            this.height = h - (barrierUp3.height + space);
+            this.x = w;
+            this.y = h - this.height; 
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierDown3.x, barrierDown3.y, barrierDown3.width, barrierDown3.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    this.height = h - (barrierUp3.height + space);
+                    this.x = w;
+                    this.y = h - this.height;
+                }
+            }
+        }
+
+        function barrierUp4()
+        {
+            this.width = 70;
+            this.height = random(50, h - (space + 50));
+            this.x = w;
+            this.y = 0;
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierUp4.x, barrierUp4.y, barrierUp4.width, barrierUp4.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    count++;
+                    this.height = random(50, h - (space + 50));
+                    this.x = w;
+                    this.y = 0;
+                }
+            }
+        }
+
+        function barrierDown4()
+        {
+            this.width = 70;
+            this.height = h - (barrierUp4.height + space);
+            this.x = w;
+            this.y = h - this.height; 
+
+            this.show = function()
+            {
+                rect(this.x, this.y, this.width, this.height);
+                image(block, barrierDown4.x, barrierDown4.y, barrierDown4.width, barrierDown4.height);
+            }
+
+            this.update = function()
+            {
+                if(this.x > -70)
+                {
+                    this.x -= barrierSpeed;
+                }
+                else
+                {
+                    this.height = h - (barrierUp4.height + space);
+                    this.x = w;
+                    this.y = h - this.height;
+                }
+            }
+        }
+
+        function keyPressed()
+        {
+            if(keyCode === 32)
+            {
+                player.up();
+                boing.play();
+            }
+        }
+
+    </script>
+
+  </body>
+</html>

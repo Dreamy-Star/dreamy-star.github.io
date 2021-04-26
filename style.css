@@ -1,0 +1,36 @@
+#note {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 10px;
+    background-color: #FFFAFA;
+    border-style: dashed;
+    border-color: #87CEEB;
+}
+
+body {
+    background-color: #0096FF;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Kaushan Script', cursive;
+    color: #1E90FF;
+}
+
+p {
+    font-size: 30px;
+    font-family: 'Caveat', cursive;
+    color: #00BFFF;
+}
+
+button {
+    background-color: #F0F8FF;
+    font-family: 'Caveat', cursive;
+    font-size: 25px;
+}

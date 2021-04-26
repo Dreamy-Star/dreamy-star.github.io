@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script:wght@700&family=Kaushan+Script&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id = "note">
+            <h1>How To Play</h1>
+            <p>You will press the SPACE BAR to make sure your snowflake will not touch the snow blocks.</p>
+            <p>Your goal is to make sure your snowflake can pass in between the snow blocks.</p>
+            <p>NOTE: Please make sure your browser covers your whole screen.</p>
+            <button onclick = "startGame()">Start The Game</button>
+        </div>
+        <script>
+            localStorage.setItem("Best", 0);
+            function startGame()
+            {
+                location.href = "game.html";
+            }
+        </script>
+    </body>
+</html>

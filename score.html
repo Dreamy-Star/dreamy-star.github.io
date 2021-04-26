@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <link href = "style.css" rel = "stylesheet" type = "text/css">
+        <link rel = "preconnect" href = "https://fonts.gstatic.com">
+        <link href = "https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script:wght@700&family=Kaushan+Script&display=swap" rel = "stylesheet">
+    </head>
+    <body>
+        <div id = "note">
+            <h1>Game Over</h1>
+            <p>You touched the snowblock!!!</p>
+            <p id = "currentScore"></p>
+            <p id = "bestScore"></p>
+            <p>Try to beat your best score. Good luck.</p>
+            <button onclick = "playAgain()">Play Again</button>
+        </div>
+
+        <script>
+            document.getElementById("currentScore").innerHTML = "Current Score: " + localStorage.getItem("Score");
+            document.getElementById("bestScore").innerHTML = "Best Score: " + localStorage.getItem("Best");
+            function playAgain()
+            {
+                location.href = "game.html";
+            }
+        </script>
+    </body>
+</html>
